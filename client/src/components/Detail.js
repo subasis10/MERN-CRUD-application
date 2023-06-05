@@ -4,7 +4,7 @@ import DeleteIcon from "@mui/icons-material/Delete";
 import Card from "@mui/material/Card";
 import CardActions from "@mui/material/CardActions";
 import { CardContent } from "@mui/material";
-import { useParams } from "react-router-dom";
+import { NavLink, useNavigate, useParams } from "react-router-dom";
 
 const Detail = () => {
   const [getuserdata, setUserdata] = useState([]);
@@ -12,6 +12,8 @@ const Detail = () => {
 
   const { id } = useParams("");
   console.log(id);
+
+  const navigate = useNavigate();
 
   const getdata = async () => {
     const res = await fetch(`/getuser/${id}`, {
@@ -33,7 +35,22 @@ const Detail = () => {
   useEffect(() => {
     getdata();
   });
-
+  const deleteuser = async (id) => {
+    const res2 = await fetch(`/deleteuser/${id}`, {
+      method: "DELETE",
+      headers: {
+        "COntent-Type": "application/json",
+      },
+    });
+    const deletedata = await res2.json();
+    console.log(deletedata);
+    if (res2.status === 422 || !deletedata) {
+      console.log("error");
+    } else {
+      console.log("user deleted");
+      navigate("/");
+    }
+  };
   return (
     <div className="container mt-3">
       <h1 style={{ fontWeight: 400 }}>Welcome Ram</h1>
@@ -41,10 +58,15 @@ const Detail = () => {
         <CardContent>
           <div className="left_view  ">
             <div className="add_btn ">
-              <button className="btn btn-primary mx-2">
-                <CreateIcon />
-              </button>
-              <button className="btn btn-danger">
+              <NavLink to={`/edit/${getuserdata._id}`}>
+                <button className="btn btn-primary mx-2">
+                  <CreateIcon />
+                </button>
+              </NavLink>
+              <button
+                className="btn btn-danger"
+                onClick={() => deleteuser(getuserdata._id)}
+              >
                 <DeleteIcon />
               </button>
             </div>

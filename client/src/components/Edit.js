@@ -1,9 +1,8 @@
 import React, { useState, useEffect } from "react";
-import { NavLink, useParams } from "react-router-dom";
+import { NavLink, useParams, useNavigate } from "react-router-dom";
 
 const Edit = () => {
-  /*  const [getuserdata, setUserdata] = useState([]);
-  console.log(getuserdata); */
+  const navigate = useNavigate("");
 
   const [inpval, setINP] = useState({
     name: "",
@@ -25,7 +24,7 @@ const Edit = () => {
     });
   };
 
-  const { id } = useParams();
+  const { id } = useParams("");
   console.log(id);
 
   const getdata = async () => {
@@ -77,6 +76,7 @@ const Edit = () => {
       alert("fill the data");
     } else {
       alert("data added");
+      navigate("/");
     }
   };
 
@@ -179,7 +179,7 @@ const Edit = () => {
             ></textarea>
           </div>
 
-          <button type="submit" onclick={updateuser} class="btn btn-primary">
+          <button type="submit" onClick={updateuser} class="btn btn-primary">
             Submit
           </button>
         </div>

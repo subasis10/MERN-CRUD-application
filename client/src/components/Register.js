@@ -1,7 +1,9 @@
 import React, { useState } from "react";
-import { NavLink } from "react-router-dom";
+import { NavLink, useNavigate } from "react-router-dom";
 
 const Register = () => {
+  const navigate = useNavigate("");
+
   const [inpval, setINP] = useState({
     name: "",
     email: "",
@@ -24,6 +26,7 @@ const Register = () => {
 
   const addinpdata = async (e) => {
     e.preventDefault();
+
     const { name, email, work, add, mobile, desc, age } = inpval;
 
     const res = await fetch("/register", {
@@ -49,6 +52,7 @@ const Register = () => {
       console.log("error");
     } else {
       alert("data added");
+      navigate("/");
     }
   };
   return (

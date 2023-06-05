@@ -28,6 +28,24 @@ const Home = () => {
   useEffect(() => {
     getdata();
   }, []);
+
+  const deleteuser = async (id) => {
+    const res2 = await fetch(`/deleteuser/${id}`, {
+      method: "DELETE",
+      headers: {
+        "COntent-Type": "application/json",
+      },
+    });
+    const deletedata = await res2.json();
+    console.log(deletedata);
+    if (res2.status === 422 || !deletedata) {
+      console.log("error");
+    } else {
+      console.log("user deleted");
+      getdata();
+    }
+  };
+
   return (
     <div className="mt-5">
       <div className="container">
@@ -67,7 +85,10 @@ const Home = () => {
                         <CreateIcon />
                       </button>
                     </NavLink>
-                    <button className="btn btn-danger">
+                    <button
+                      className="btn btn-danger"
+                      onClick={() => deleteuser(element._id)}
+                    >
                       <DeleteIcon />
                     </button>
                   </td>
